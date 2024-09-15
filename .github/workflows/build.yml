@@ -30,6 +30,7 @@ jobs:
       - name: build 
         shell: cmd
         run: |
+          cd cypto_socks
           msys2 -c 'x86_64-pc-msys-gcc main.c'
           7z a build .\a.exe D:\a\_temp\msys64\usr\bin\msys-2.0.dll
       - name: Release
