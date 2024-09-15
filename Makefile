@@ -1,5 +1,5 @@
 
-CFLAGS = -std=c11 -Wall -Wextra -Wno-unused -Wno-unused-parameter
+CFLAGS = -Wall -Wextra -Wno-unused -Wno-unused-parameter
 
 ifdef DEBUG
 	CFLAGS += -DDEBUG -g
