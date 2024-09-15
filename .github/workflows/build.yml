@@ -23,6 +23,8 @@ jobs:
       - uses: msys2/setup-msys2@v2
         with:
           msystem: ucrt64
+          install: >-
+            msys/gcc
       - name: build 
         shell: cmd
         run: |
