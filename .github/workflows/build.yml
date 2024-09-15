@@ -59,16 +59,21 @@ jobs:
           VERSION="$MAJOR.$MINOR.$PATCH"
           echo "Generated Version: $VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+      - name: install tool-chian
+        id: ready
+        run: |
+          sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf
       - name: Build
         run: |
-          gcc main.c -o main
+          gcc main.c -o socks
+          arm-linux-gnueabihf-gcc main.c -o socks_main
       - name: Release
         uses: ncipollo/release-action@v1.14.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.parse_version.outputs.VERSION }}
           artifacts: |
-            main
+            socks*
           allowUpdates: true
           replacesArtifacts: true
           omitBodyDuringUpdate: true
