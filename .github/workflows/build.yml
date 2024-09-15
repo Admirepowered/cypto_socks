@@ -1,0 +1,40 @@
+name: build release
+on:
+  workflow_call:
+  workflow_dispatch:
+jobs:
+  Build-windows:
+    runs-on: windows-2022
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Generate version
+        shell: pwsh
+        run: |
+          $MAJOR = (Select-String -Path version -Pattern '#define MAJOR').Line.Split(' ')[2]
+          $MINOR = (Select-String -Path version -Pattern '#define MINOR').Line.Split(' ')[2]
+          $PATCH = (Select-String -Path version -Pattern '#define PATCH').Line.Split(' ')[2]
+          $VERSION = "$MAJOR.$MINOR.$PATCH"
+          Write-Output "Generated Version: $VERSION"
+          "VERSION=$VERSION" | Out-File -FilePath $env:GITHUB_ENV -Append
+          Add-Content -Path $env:GITHUB_OUTPUT -Value "VERSION=$VERSION"
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: ucrt64
+      - name: build 
+        shell: cmd
+        run: |
+          msys2 -c 'x86_64-pc-msys-gcc.exe main.c'
+          7z a build .\a.exe D:\a\_temp\msys64\usr\bin\msys-2.0.dll
+      - name: Release
+        uses: ncipollo/release-action@v1.14.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ env.VERSION }}
+          artifacts: |
+            build.7z
+          allowUpdates: true
+          replacesArtifacts: true
+    
