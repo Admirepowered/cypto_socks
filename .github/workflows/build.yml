@@ -32,7 +32,7 @@ jobs:
         run: |
           msys2 -c 'x86_64-pc-msys-gcc main.c'
           7z a build .\a.exe D:\a\_temp\msys64\usr\bin\msys-2.0.dll
-          ls
+          dir
       - name: Release
         uses: ncipollo/release-action@v1.14.0
         with:
