@@ -32,7 +32,7 @@ jobs:
         shell: cmd
         run: |
           msys2 -c 'make'
-          7z a build a.exe D:\a\_temp\msys64\usr\bin\msys-2.0.dll
+          7z a build.7z .\a.exe D:\a\_temp\msys64\usr\bin\msys-2.0.dll
           dir
       - name: Release
         uses: ncipollo/release-action@v1.14.0
