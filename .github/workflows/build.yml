@@ -27,6 +27,7 @@ jobs:
           msystem: ucrt64
           install: >-
             msys/gcc
+            msys/make
       - name: build 
         shell: cmd
         run: |
